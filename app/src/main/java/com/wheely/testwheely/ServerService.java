@@ -29,7 +29,6 @@ import de.tavendo.autobahn.WebSocketHandler;
 public class ServerService extends Service implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener {
 
     private WebSocketConnection connection;
-    private final String URL = "ws://mini-mdt.wheely.com?username=%s&password=%s";
     private GoogleApiClient googleApiClient;
     private Location location;
     private String login, password;
@@ -37,7 +36,6 @@ public class ServerService extends Service implements GoogleApiClient.Connection
     Gson gson = new Gson();
     Type listType = new TypeToken<List<Point>>() {
     }.getType();
-    public static final String EXTRAS = "EXTRAS";
 
     @Nullable
     @Override
@@ -47,9 +45,9 @@ public class ServerService extends Service implements GoogleApiClient.Connection
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle args = intent.getBundleExtra(EXTRAS);
-        login = args.getString(MapsActivity.ARG_LOGIN);
-        password = args.getString(MapsActivity.ARG_PASSWORD);
+        Bundle args = intent.getBundleExtra(Constants.EXTRAS);
+        login = args.getString(Constants.ARG_LOGIN);
+        password = args.getString(Constants.ARG_PASSWORD);
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)
@@ -60,7 +58,7 @@ public class ServerService extends Service implements GoogleApiClient.Connection
         if (connection == null) {
             connection = new WebSocketConnection();
             try {
-                connection.connect(String.format(URL, login, password), new WebSocketHandler() {
+                connection.connect(String.format(Constants.URL, login, password), new WebSocketHandler() {
                     @Override
                     public void onClose(int code, String reason) {
                         super.onClose(code, reason);
@@ -81,7 +79,7 @@ public class ServerService extends Service implements GoogleApiClient.Connection
                         for (Point p : points) {
                             SugarRecord.save(p);
                         }
-                        Intent messageIntent = new Intent(MapsActivity.action);
+                        Intent messageIntent = new Intent(Constants.ACTION);
                         sendBroadcast(messageIntent);
                         Log.d(WEB_TAG, payload);
                     }

@@ -4,4 +4,5 @@
     <string name="login_hint">login</string>
     <string name="password_hint">password</string>
     <string name="sign_in">Login</string>
+    <string name="location_permission_explanation">Чтобы войти, нужно разрешение на геолокацию</string>
 </resources>
