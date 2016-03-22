@@ -13,7 +13,7 @@ import android.widget.EditText;
 public class LoginActivity extends AppCompatActivity {
 
     private EditText login, password;
-    private Button signInButotn;
+    private Button signInButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -21,8 +21,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         login = (EditText) findViewById(R.id.loginEditText);
         password = (EditText) findViewById(R.id.passwordEditText);
-        signInButotn = (Button) findViewById(R.id.enterButton);
-        signInButotn.setOnClickListener(new View.OnClickListener() {
+        signInButton = (Button) findViewById(R.id.enterButton);
+        signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(LoginActivity.this, MapsActivity.class);

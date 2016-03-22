@@ -47,7 +47,11 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
                 .findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         registerReceiver(receiver, filter);
+        Intent service = new Intent(this, ServerService.class);
+        service.putExtra(ServerService.EXTRAS, getIntent().getExtras());
+        startService(service);
     }
+
     @Override
     public void onMapReady(GoogleMap googleMap) {
         map = googleMap;
@@ -57,5 +61,6 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+        stopService(new Intent(this, ServerService.class));
     }
 }

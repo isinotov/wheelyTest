@@ -12,13 +12,6 @@ public class App extends Application {
     @Override
     public void onCreate() {
         super.onCreate();
-        startService(new Intent(this, ServerService.class));
         SugarContext.init(this);
-    }
-
-    @Override
-    public void onTerminate() {
-        super.onTerminate();
-        stopService(new Intent(this, ServerService.class));
     }
 }
