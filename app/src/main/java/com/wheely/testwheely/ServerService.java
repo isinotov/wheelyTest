@@ -1,7 +1,9 @@
 package com.wheely.testwheely;
 
 import android.app.Service;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.location.Location;
 import android.os.Bundle;
 import android.os.IBinder;
@@ -36,6 +38,7 @@ public class ServerService extends Service implements GoogleApiClient.Connection
     Gson gson = new Gson();
     Type listType = new TypeToken<List<Point>>() {
     }.getType();
+    private SharedPreferences sharedpreferences;
 
     @Nullable
     @Override
@@ -45,9 +48,10 @@ public class ServerService extends Service implements GoogleApiClient.Connection
 
     @Override
     public int onStartCommand(Intent intent, int flags, int startId) {
-        Bundle args = intent.getBundleExtra(Constants.EXTRAS);
-        login = args.getString(Constants.ARG_LOGIN);
-        password = args.getString(Constants.ARG_PASSWORD);
+        sharedpreferences = getSharedPreferences(Constants.MY_PREFERENCES, Context.MODE_PRIVATE);
+        login = sharedpreferences.getString(Constants.ARG_LOGIN, null);
+        password = sharedpreferences.getString(Constants.ARG_PASSWORD, null);
+        sharedpreferences.edit().putBoolean(Constants.IS_CONNECTED, true).apply();
         if (googleApiClient == null) {
             googleApiClient = new GoogleApiClient.Builder(this)
                     .addConnectionCallbacks(this)

@@ -49,7 +49,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         mapFragment.getMapAsync(this);
         registerReceiver(receiver, filter);
         Intent service = new Intent(this, ServerService.class);
-        service.putExtra(Constants.EXTRAS, getIntent().getExtras());
         startService(service);
     }
 
@@ -62,6 +61,15 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     protected void onDestroy() {
         super.onDestroy();
         unregisterReceiver(receiver);
+    }
+
+    @Override
+    public void onBackPressed() {
+        super.onBackPressed();
         stopService(new Intent(this, ServerService.class));
+        getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE).
+                edit().
+                putBoolean(Constants.IS_CONNECTED, false).
+                apply();
     }
 }

@@ -2,6 +2,7 @@ package com.wheely.testwheely;
 
 import android.Manifest;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -19,9 +20,10 @@ import android.widget.Toast;
  */
 public class LoginActivity extends AppCompatActivity {
 
-    private EditText login, password;
+    private EditText loginEditText, passwordEditText;
     private Button signInButton;
     private static final int MY_PERMISSIONS_REQUEST_GET_FINE_LOCATION = 7;
+    private SharedPreferences sharedPreferences;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -29,8 +31,8 @@ public class LoginActivity extends AppCompatActivity {
         setContentView(R.layout.login_activity);
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
-        login = (EditText) findViewById(R.id.loginEditText);
-        password = (EditText) findViewById(R.id.passwordEditText);
+        loginEditText = (EditText) findViewById(R.id.loginEditText);
+        passwordEditText = (EditText) findViewById(R.id.passwordEditText);
         signInButton = (Button) findViewById(R.id.enterButton);
         signInButton.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -48,17 +50,22 @@ public class LoginActivity extends AppCompatActivity {
                                 MY_PERMISSIONS_REQUEST_GET_FINE_LOCATION);
                     }
                 } else {
-                    startMaps(activity);
+                    startMaps();
                 }
             }
         });
+        sharedPreferences = getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE);
+        boolean isConnected = sharedPreferences.
+                getBoolean(Constants.IS_CONNECTED, false);
+        if (isConnected)
+            startMaps();
     }
 
-    private void startMaps(LoginActivity activity) {
-        Intent intent = new Intent(activity, MapsActivity.class);
-        intent.putExtra(Constants.ARG_LOGIN, login.getText().toString());
-        intent.putExtra(Constants.ARG_PASSWORD, password.getText().toString());
-        startActivity(intent);
+    private void startMaps() {
+        String login = loginEditText.getText().toString();
+        String password = passwordEditText.getText().toString();
+        sharedPreferences.edit().putString(Constants.ARG_LOGIN, login).putString(Constants.ARG_PASSWORD, password).apply();
+        startActivity(new Intent(this, MapsActivity.class));
     }
 
     @Override
@@ -68,7 +75,7 @@ public class LoginActivity extends AppCompatActivity {
                 // If request is cancelled, the result arrays are empty.
                 if (grantResults.length > 0
                         && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
-                    startMaps(this);
+                    startMaps();
                 }
                 break;
             }

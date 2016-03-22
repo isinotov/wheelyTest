@@ -10,4 +10,6 @@ public class Constants {
     public static final String ARG_LOGIN = "LOGIN";
     public static final String ARG_PASSWORD = "PASSWORD";
     public static final String ARG_CONNECTION_LOST = "CONNECTION_LOST";
+    public static final String MY_PREFERENCES = "MyPreferences";
+    public static final String IS_CONNECTED = "CONNECTED";
 }
