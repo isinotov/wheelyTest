@@ -22,6 +22,8 @@ public class MapsActivity extends FragmentActivity implements OnMapReadyCallback
     private GoogleMap map;
     public static final String action = "com.wheely.testwheely.ACTION.ADDPOINTS";
     private final IntentFilter filter = new IntentFilter(action);
+    public static final String ARG_LOGIN = "LOGIN";
+    public static final String ARG_PASSWORD = "PASSWORD";
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
         @Override
