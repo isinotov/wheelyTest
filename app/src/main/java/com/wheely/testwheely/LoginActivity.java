@@ -50,6 +50,9 @@ public class LoginActivity extends AppCompatActivity {
                                 MY_PERMISSIONS_REQUEST_GET_FINE_LOCATION);
                     }
                 } else {
+                    String login = loginEditText.getText().toString();
+                    String password = passwordEditText.getText().toString();
+                    sharedPreferences.edit().putString(Constants.ARG_LOGIN, login).putString(Constants.ARG_PASSWORD, password).apply();
                     startMaps();
                 }
             }
@@ -62,10 +65,8 @@ public class LoginActivity extends AppCompatActivity {
     }
 
     private void startMaps() {
-        String login = loginEditText.getText().toString();
-        String password = passwordEditText.getText().toString();
-        sharedPreferences.edit().putString(Constants.ARG_LOGIN, login).putString(Constants.ARG_PASSWORD, password).apply();
-        startActivity(new Intent(this, MapsActivity.class));
+        Intent intent = new Intent(this, MapsActivity.class);
+        startActivity(intent);
     }
 
     @Override

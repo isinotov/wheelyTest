@@ -5,7 +5,6 @@ package com.wheely.testwheely;
  */
 public class Constants {
     public static final String URL = "ws://mini-mdt.wheely.com?username=%s&password=%s";
-    public static final String EXTRAS = "EXTRAS";
     public static final String ACTION = "com.wheely.testwheely.ACTION.ADDPOINTS";
     public static final String ARG_LOGIN = "LOGIN";
     public static final String ARG_PASSWORD = "PASSWORD";

@@ -5,4 +5,7 @@
     <string name="password_hint">password</string>
     <string name="sign_in">Login</string>
     <string name="location_permission_explanation">Чтобы войти, нужно разрешение на геолокацию</string>
+    <string name="try_reconnect">Пытаемся восстановить соединение</string>
+    <string name="successful_connection">Соединение установлено</string>
+    <string name="exit">exit</string>
 </resources>

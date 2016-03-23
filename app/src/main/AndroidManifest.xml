@@ -57,7 +57,10 @@
             </intent-filter>
         </activity>
 
-        <service android:name=".ServerService" />
+        <service
+            android:name=".ServerService"
+            android:exported="false"
+            android:process=":wheelylocation" />
     </application>
 
 </manifest>

@@ -5,9 +5,11 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.Bundle;
-import android.support.v4.app.FragmentActivity;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.view.View;
+import android.widget.Button;
 
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.OnMapReadyCallback;
@@ -22,6 +24,7 @@ import java.util.List;
 public class MapsActivity extends AppCompatActivity implements OnMapReadyCallback {
 
     private GoogleMap map;
+    private Button exit;
     private final IntentFilter filter = new IntentFilter(Constants.ACTION);
 
     private BroadcastReceiver receiver = new BroadcastReceiver() {
@@ -44,12 +47,26 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
         Toolbar toolbar = (Toolbar) findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
         // Obtain the SupportMapFragment and get notified when the map is ready to be used.
-        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager()
-                .findFragmentById(R.id.map);
+        SupportMapFragment mapFragment = (SupportMapFragment) getSupportFragmentManager().findFragmentById(R.id.map);
         mapFragment.getMapAsync(this);
         registerReceiver(receiver, filter);
         Intent service = new Intent(this, ServerService.class);
         startService(service);
+        exit = (Button) findViewById(R.id.exit);
+        exit.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                stopMap();
+            }
+        });
+    }
+
+    private void stopMap() {
+        stopService(new Intent(MapsActivity.this, ServerService.class));
+        getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE).
+                edit().
+                putBoolean(Constants.IS_CONNECTED, false).
+                apply();
     }
 
     @Override
@@ -66,10 +83,6 @@ public class MapsActivity extends AppCompatActivity implements OnMapReadyCallbac
     @Override
     public void onBackPressed() {
         super.onBackPressed();
-        stopService(new Intent(this, ServerService.class));
-        getSharedPreferences(Constants.MY_PREFERENCES, MODE_PRIVATE).
-                edit().
-                putBoolean(Constants.IS_CONNECTED, false).
-                apply();
+        stopMap();
     }
 }

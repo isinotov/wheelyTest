@@ -1,7 +1,6 @@
 package com.wheely.testwheely;
 
 
-import com.orm.SugarRecord;
 import com.orm.dsl.Table;
 
 @Table
